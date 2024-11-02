@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Искать</button>
+    </form>
+    
+    {% if page_obj %}
+        <ul>
+        {% for person in page_obj %}
+            <li>{{ person.name }} ({{ person.city }}): {{ person.info }}</li>
+        {% endfor %}
+        </ul>
+    
+        <div>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.full_name %}&full_name={{ request.GET.full_name }}{% endif %}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}">Назад</a>
+            {% endif %}
+            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.full_name %}&full_name={{ request.GET.full_name }}{% endif %}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}">Вперёд</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+
+</html>
